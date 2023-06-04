@@ -1,11 +1,13 @@
 package mentoring_3;
 
+import Util.BrowserUtils;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.time.Duration;
@@ -38,5 +40,17 @@ driver quit
         emailGM.sendKeys("fashionazi@mail.ru");
         WebElement next=driver.findElement(By.xpath("//button[@class='TRX6J CxLjL qjTo7 CguuB qNKBC']"));
         next.click();
+        WebElement password= driver.findElement(By.xpath("//input[@placeholder='Set a password']"));
+        password.sendKeys("1234");
+        WebElement repeatPass=driver.findElement(By.xpath("//input[@placeholder='Repeat password']"));
+        repeatPass.sendKeys("1234");
+        WebElement nextButton=driver.findElement(By.xpath("//button[@type='submit']"));
+        nextButton.click();
+        WebElement redMessege=driver.findElement(By.xpath("//div[@class='a0A37 hAkP2']"));
+        String actual= BrowserUtils.getText(redMessege);
+        String expected="The password must be at least 8 characters long.";
+        Assert.assertEquals(actual,expected);
+        driver.quit();
+
     }
 }
